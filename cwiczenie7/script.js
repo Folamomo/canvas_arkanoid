@@ -22,11 +22,6 @@ let brickCountY = 3
 let bricks = []
 let score = 0
 
-function calculateCollisions() {
-    bricks.forEach(it=>it.check(ball))
-}
-
-
 class Brick {
 
     constructor(top, right, bottom, left) {
@@ -67,14 +62,49 @@ class Brick {
     }
 }
 
+//init bricks
+for (let i = 0; i < brickCountX; i++) {
+    for (let j = 0; j < brickCountY; j++) {
+        new Brick(j*(brickHeight + brickGapY) + brickGapY,
+            (i+1)*(brickWidth + brickGapX),
+            (j+1)*(brickHeight + brickGapY),
+            i*(brickWidth + brickGapX) + brickGapX,
+        )
+    }
+}
+function drawBricks(){
+    bricks.forEach(it=>it.draw())
+}
+
+function calculateCollisions() {
+    bricks.forEach(it=>it.check(ball))
+}
+
+
 class Platform extends Brick{
     constructor() {
         super(550, 450, 570, 350);
+        this.leftKeyDown = false
+        this.rightKeyDown = false
 
+        document.addEventListener("keydown", (ev)=>{
+            if(ev.code === 'ArrowLeft') this.leftKeyDown = true
+            if(ev.code === 'ArrowRight') this.rightKeyDown = true
+        })
+
+        document.addEventListener("keyup", (ev)=>{
+            if(ev.code === 'ArrowLeft') this.leftKeyDown = false
+            if(ev.code === 'ArrowRight') this.rightKeyDown = false
+        })
     }
 
     collide() {
 
+    }
+
+    move(){
+        if (this.leftKeyDown) this.moveLeft()
+        if (this.rightKeyDown) this.moveRight()
     }
 
     moveLeft(){
@@ -93,6 +123,8 @@ class Platform extends Brick{
 
 }
 
+let platform = new Platform()
+
 function drawBall() {
     ctx.beginPath()
     ctx.arc(ball.x, ball.y, ball.r, 0, 2*Math.PI)
@@ -100,49 +132,6 @@ function drawBall() {
     ctx.fill()
 }
 
-function drawBricks(){
-    bricks.forEach(it=>it.draw())
-}
-
-let platform = new Platform()
-let leftKeyDown = false
-let rightKeyDown = false
-
-document.addEventListener("keydown", (ev)=>{
-    if(ev.code === 'ArrowLeft') leftKeyDown = true
-    if(ev.code === 'ArrowRight') rightKeyDown = true
-})
-
-document.addEventListener("keyup", (ev)=>{
-    if(ev.code === 'ArrowLeft') leftKeyDown = false
-    if(ev.code === 'ArrowRight') rightKeyDown = false
-})
-
-document.addEventListener("keypress", (ev)=>{
-    if(ev.code === 'KeyF') canvas.requestFullscreen()
-})
-
-
-
-let prev
-function init(timestamp) {
-
-    //init bricks
-    for (let i = 0; i < brickCountX; i++) {
-        for (let j = 0; j < brickCountY; j++) {
-            new Brick(j*(brickHeight + brickGapY) + brickGapY,
-                (i+1)*(brickWidth + brickGapX),
-                (j+1)*(brickHeight + brickGapY),
-                i*(brickWidth + brickGapX) + brickGapX,
-            )
-        }
-    }
-
-
-
-    prev = timestamp
-    requestAnimationFrame(frame)
-}
 
 function drawScores() {
     ctx.font = "16px Arial";
@@ -153,7 +142,6 @@ function die() {
     ctx.clearRect(0, 0, 800, 600)
     ctx.font = "50px Arial";
     ctx.fillText("GAME OVER", 250, 250);
-
 }
 
 function win() {
@@ -162,16 +150,24 @@ function win() {
     ctx.fillText("CONGRATULATIONS!!!", 130, 250);
 }
 
+document.addEventListener("keypress", (ev)=>{
+    if(ev.code === 'KeyF') canvas.requestFullscreen()
+})
+
+let prev
+function init(timestamp) {
+    prev = timestamp
+    requestAnimationFrame(frame)
+}
+
 function frame(timestamp) {
     let dt = timestamp - prev
     ctx.clearRect(0, 0, 800, 600)
 
     ball.x += dt/1000 * ball.vx
     ball.y += dt/1000 * ball.vy
-    if (leftKeyDown) platform.moveLeft()
-    if (rightKeyDown) platform.moveRight()
 
-
+    platform.move()
     calculateCollisions()
 
     if(ball.x + ball.r >= 800 || ball.x - ball.r <= 0) ball.vx = - ball.vx

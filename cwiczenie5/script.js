@@ -20,13 +20,9 @@ let brickCountY = 3
 
 
 let bricks = []
-function calculateCollisions() {
-    bricks.forEach(it=>it.check(ball))
-}
 
 
 class Brick {
-
     constructor(top, right, bottom, left) {
         this.top = top
         this.right = right
@@ -60,6 +56,25 @@ class Brick {
     }
 }
 
+//init bricks
+for (let i = 0; i < brickCountX; i++) {
+    for (let j = 0; j < brickCountY; j++) {
+        new Brick(j*(brickHeight + brickGapY) + brickGapY,
+            (i+1)*(brickWidth + brickGapX),
+            (j+1)*(brickHeight + brickGapY),
+            i*(brickWidth + brickGapX) + brickGapX,
+        )
+    }
+}
+
+function calculateCollisions() {
+    bricks.forEach(it=>it.check(ball))
+}
+
+function drawBricks(){
+    bricks.forEach(it=>it.draw())
+}
+
 function drawBall() {
     ctx.beginPath()
     ctx.arc(ball.x, ball.y, ball.r, 0, 2*Math.PI)
@@ -67,24 +82,9 @@ function drawBall() {
     ctx.fill()
 }
 
-function drawBricks(){
-    bricks.forEach(it=>it.draw())
-}
 
 let prev
 function init(timestamp) {
-
-    //init bricks
-    for (let i = 0; i < brickCountX; i++) {
-        for (let j = 0; j < brickCountY; j++) {
-            new Brick(j*(brickHeight + brickGapY) + brickGapY,
-                (i+1)*(brickWidth + brickGapX),
-                (j+1)*(brickHeight + brickGapY),
-                i*(brickWidth + brickGapX) + brickGapX,
-            )
-        }
-    }
-
     prev = timestamp
     requestAnimationFrame(frame)
 }
@@ -103,7 +103,6 @@ function frame(timestamp) {
 
     drawBricks()
     drawBall()
-
 
     prev = timestamp
     requestAnimationFrame(frame)
