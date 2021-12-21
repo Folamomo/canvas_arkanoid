@@ -15,14 +15,3 @@ function brick() {
     ctx.strokeRect(0, 0, brickWidth, brickHeight)
 }
 
-ctx.save()
-for (let i = 0; i < brickCountY; i++) {
-    ctx.save()
-    for (let j = 0; j < brickCountX; j++) {
-        brick()
-        ctx.translate(brickWidth + brickGapX, 0)
-    }
-    ctx.restore()
-    ctx.translate(0, brickHeight + brickGapY)
-}
-ctx.restore()

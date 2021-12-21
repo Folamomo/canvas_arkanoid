@@ -26,16 +26,8 @@ function init(timestamp) {
 
 function frame(timestamp) {
     let dt = timestamp - prev
-    ctx.clearRect(0, 0, 800, 600)
 
-    ball.x += dt/1000 * ball.vx
-    ball.y += dt/1000 * ball.vy
-
-    if(ball.x + ball.r >= 800 || ball.x - ball.r <= 0) ball.vx = - ball.vx
-    if(ball.y + ball.r >= 600 || ball.y - ball.r <= 0) ball.vy = - ball.vy
-
-    drawBall()
-
+    //Tutaj wstaw kod
 
     prev = timestamp
     requestAnimationFrame(frame)

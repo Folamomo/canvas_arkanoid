@@ -87,17 +87,11 @@ class Platform extends Brick{
         this.leftKeyDown = false
         this.rightKeyDown = false
 
-        document.addEventListener("keydown", (ev)=>{
-            if(ev.code === 'ArrowLeft') this.leftKeyDown = true
-            if(ev.code === 'ArrowRight') this.rightKeyDown = true
-        })
+        //tu dodaj event listenery
 
-        document.addEventListener("keyup", (ev)=>{
-            if(ev.code === 'ArrowLeft') this.leftKeyDown = false
-            if(ev.code === 'ArrowRight') this.rightKeyDown = false
-        })
     }
 
+    //override żeby nie usuwać platformy po zderzeniu
     collide() {
 
     }
@@ -107,19 +101,6 @@ class Platform extends Brick{
         if (this.rightKeyDown) this.moveRight()
     }
 
-    moveLeft(){
-        if (this.left > 0) {
-            this.left -= 10
-            this.right -= 10
-        }
-    }
-
-    moveRight(){
-        if (this.right < 800) {
-            this.left += 10
-            this.right += 10
-        }
-    }
 
 }
 

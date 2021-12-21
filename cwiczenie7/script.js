@@ -150,9 +150,6 @@ function win() {
     ctx.fillText("CONGRATULATIONS!!!", 130, 250);
 }
 
-document.addEventListener("keypress", (ev)=>{
-    if(ev.code === 'KeyF') canvas.requestFullscreen()
-})
 
 let prev
 function init(timestamp) {

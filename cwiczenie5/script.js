@@ -43,16 +43,7 @@ class Brick {
     }
 
     check(ball){
-        if ((this.top < ball.y + ball.r && this.bottom > ball.y - ball.r) &&
-            (this.left < ball.x + ball.r && this.right > ball.x - ball.r)) {
-            if (this.top < ball.y && this.bottom > ball.y) ball.vx = - ball.vx
-            else if (this.left < ball.x && this.right > ball.x) ball.vy = - ball.vy
-            else {
-                ball.vx = - ball.vx
-                ball.vy = - ball.vy
-            }
-            this.remove()
-        }
+        //tu wstaw kod
     }
 }
 
