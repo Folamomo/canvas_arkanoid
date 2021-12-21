@@ -1,0 +1,7 @@
+canvas {
+    border: solid black 3px;
+}
+
+:not(:root):fullscreen::backdrop {
+    background: rgba(255,255,255,1) !important;
+}
