@@ -178,7 +178,6 @@ function frame(timestamp) {
     if(ball.y - ball.r <= 0) ball.vy = - ball.vy
 
     if(ball.y + ball.r >= 600) return die()
-    // if(score === 1) return win()
     if(score === brickCountY * brickCountX) return win()
 
 
